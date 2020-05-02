@@ -5,7 +5,7 @@ from bson.json_util import dumps
 
 class DBManager:
     def __init__(self, db_host, db_port, db_name):
-        self.mongodb_client = pymongo.MongoClient('mongodb://' + db_host + ':' + db_port + '/')
+        self.mongodb_client = pymongo.MongoClient(f'mongodb://{db_host}:{db_port}/')
         self.db = self.mongodb_client[db_name]
 
     def create_user(self, username):
