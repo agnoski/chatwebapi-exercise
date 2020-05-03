@@ -64,7 +64,7 @@ class DBManager:
     def random_users_messages_lists(self, user_id):
         users = self.db.users.find()
         random_users = random.sample(list(users), 2)
-        random_users_messages_id_list = list(map(lambda u: self.user_messages_list(str(u['_id'])), random_users))
+        random_users_messages_id_list = list(map(lambda user: self.user_messages_list(str(user['_id'])), random_users))
         return random_users_messages_id_list
 
     def get_chat_from_db(self, chat_id):
