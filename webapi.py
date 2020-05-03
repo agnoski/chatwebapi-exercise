@@ -14,35 +14,39 @@ nltkm = NLTKManager()
 
 @app.route('/')
 @error_handler
-def hello_world():
-    return 'Hello, World!'
+def landing_page():
+    return 'Welcome to this awesome chat API!'
 
 @app.route('/user/create/<username>')
 @error_handler
 def create_user(username):
     user_id = dbm.create_user(username)
-    return str(user_id)
+    resp = jsonify({'user_id': str(user_id)})
+    return resp
 
 @app.route('/chat/create')
 @error_handler
 def create_chat():
     users_id = list(request.args.values())
     chat_id = dbm.create_chat(users_id)
-    return str(chat_id)
+    resp = jsonify({'chat_id': str(chat_id)})
+    return resp
 
 @app.route('/chat/<chat_id>/adduser')
 @error_handler
 def chat_add_user(chat_id):
     user_id = request.args.get('user_id')
     dbm.chat_add_user(chat_id, user_id)
-    return chat_id
+    resp = jsonify({'chat-id': chat_id})
+    return resp
 
 @app.route('/chat/<chat_id>/addmessage')
 @error_handler
 def chat_add_message(chat_id):
     message = {'user_id': request.args.get('user_id'), 'text': request.args.get('text')}
     message_id = dbm.chat_add_message(chat_id, message)
-    return str(message_id)
+    resp = jsonify({'message_id': message_id})
+    return resp
 
 @app.route('/chat/<chat_id>/list')
 @error_handler
@@ -56,12 +60,13 @@ def chat_messages_list(chat_id):
 def chat_sentiment_list(chat_id):
     messages = dbm.chat_messages_list(chat_id)
     sentiments = nltkm.evaluate_messages(messages)
-    return jsonify(sentiments)
+    resp = jsonify(sentiments)
+    return resp
 
 @app.route('/user/<user_id>/recommend')
 @error_handler
 def user_recommend(user_id):
     user_messages_list = dbm.user_messages_list(user_id)
     random_users_messages_lists = dbm.random_users_messages_lists(user_id)
-    return jsonify([{"len 1": len(user_messages_list)}, {"len 2": len(random_users_messages_lists)}])
-    #return jsonify([{"user": "pippo"}, {"user": "pluto"}, {"user": "paperino"}])
+    resp = jsonify([{"len 1": len(user_messages_list)}, {"len 2": len(random_users_messages_lists)}])
+    return resp
