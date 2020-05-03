@@ -15,6 +15,6 @@ class NLTKManager:
         return sentences_evaluation
 
     def evaluate_messages(self, messages):
-        sentences = list(map(lambda m: m['text'], messages))
+        sentences = list(map(lambda message: message['text'], messages))
         messages_evaluations = self.evaluate_sentences(sentences)
         return messages_evaluations
