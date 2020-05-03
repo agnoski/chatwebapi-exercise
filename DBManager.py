@@ -47,7 +47,7 @@ class DBManager:
     def chat_messages_list(self, chat_id):
         chat = self.get_chat_from_db(chat_id)
         messages_id = chat['messages_id']
-        messages_list = map(self.get_message_from_db, messages_id)
+        messages_list = list(map(self.get_message_from_db, messages_id))
         return messages_list
 
     def chat_messages_list_json(self, chat_id):
